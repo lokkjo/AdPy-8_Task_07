@@ -27,10 +27,10 @@ def clean_csv_phonebook(source_csv: str, clean_csv: str):
         person_regex = r'^([А-Я]?[а-я]+)(\s|,)([А-Я]?[а-я]+)(\s|,)([А-Я]?[а-я]+)(\s|,)+([\w]+)'
         person_data = re.findall(person_regex, line)
         for record in person_data:
-            last_name = person_data[0][0]
-            first_name = person_data[0][2]
-            sur_name = person_data[0][4]
-            work_place = person_data[0][6]
+            last_name = record[0]
+            first_name = record[2]
+            sur_name = record[4]
+            work_place = record[6]
         contact_proxy = [last_name, first_name,
                          sur_name, work_place,'']
 
@@ -51,13 +51,11 @@ def clean_csv_phonebook(source_csv: str, clean_csv: str):
                            f'{phone_digits[9:11]}'
             if 'доб.' in line:
                 phone_number += f' доб. {str(aux_phone_string[0])}'
-
-        contact_proxy.append(phone_number)
+            contact_proxy.append(phone_number)
 
         e_mail = str(re.findall(
             r'([\w/.]+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})',
             ' '.join(item))).strip("'[]")
-
         contact_proxy.append(e_mail)
 
         clean_phonebook[contact_id] = contact_proxy
